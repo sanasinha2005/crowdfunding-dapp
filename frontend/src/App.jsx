@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getContract, getSigner } from "./blockchain/contract";
-
+import { ethers } from "ethers";
 import CampaignCard from "./components/CampaignCard";
 
 import {
