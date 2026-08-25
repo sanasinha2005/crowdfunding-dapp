@@ -1,7 +1,10 @@
+
 import { ArrowUpRight, Clock, Wallet, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { getContract, getProvider } from "../blockchain/contract";
+
+
 
 function CampaignCard({
   id,
@@ -12,7 +15,9 @@ function CampaignCard({
   amountCollected,
   deadline,
   withdrawn,
+  image,
 }) {
+    const [showDetails, setShowDetails] = useState(false);
     const [userDonation, setUserDonation] = useState("0");
     const [status, setStatus] = useState("");
     const [showDonateModal, setShowDonateModal] = useState(false);
@@ -75,8 +80,6 @@ function CampaignCard({
   };
 }, [id]);
 
-  const image =
-    "https://images.unsplash.com/photo-1532978377-523e16f371f2?auto=format&fit=crop&w=900&q=80";
 
 const supportCampaign = async () => {
   try {
@@ -158,9 +161,12 @@ const withdrawFunds = async () => {
           Blockchain
         </span>
 
-        <button className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 backdrop-blur-md transition hover:bg-white hover:text-black">
-          <ArrowUpRight size={17} />
-        </button>
+        <button
+  onClick={() => setShowDetails(true)}
+  className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/50 backdrop-blur-md transition hover:bg-white hover:text-black"
+>
+  <ArrowUpRight size={17} />
+</button>
 
       </div>
 
@@ -329,6 +335,96 @@ const withdrawFunds = async () => {
 
     </div>
 
+  </div>
+)}
+
+    {showDetails && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm">
+    <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-[#111218] shadow-2xl">
+
+      {/* Close */}
+      <button
+        onClick={() => setShowDetails(false)}
+        className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white transition hover:bg-white hover:text-black"
+      >
+        <X size={18} />
+      </button>
+
+      {/* Image */}
+      <img
+        src={image}
+        alt={title}
+        className="h-56 w-full object-cover"
+      />
+
+      {/* Details */}
+      <div className="p-6">
+
+        <h2 className="text-2xl font-bold text-white">
+          {title}
+        </h2>
+
+        <p className="mt-3 leading-7 text-gray-400">
+          {description}
+        </p>
+
+        <div className="mt-6 grid grid-cols-2 gap-4">
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-xs text-gray-500">
+              Raised
+            </p>
+
+            <p className="mt-1 font-semibold text-white">
+              {raisedEth} ETH
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-xs text-gray-500">
+              Goal
+            </p>
+
+            <p className="mt-1 font-semibold text-white">
+              {targetEth} ETH
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-xs text-gray-500">
+              Time Left
+            </p>
+
+            <p className="mt-1 font-semibold text-white">
+              {daysLeft} days
+            </p>
+          </div>
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-xs text-gray-500">
+              Creator
+            </p>
+
+            <p className="mt-1 font-semibold text-white">
+              {owner.slice(0, 6)}...{owner.slice(-4)}
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          onClick={() => {
+            setShowDetails(false);
+            supportCampaign();
+          }}
+          className="mt-6 w-full rounded-xl bg-violet-500 py-3.5 font-semibold text-white transition hover:bg-violet-400"
+        >
+          Support Campaign
+        </button>
+
+      </div>
+
+    </div>
   </div>
 )}
     </div>

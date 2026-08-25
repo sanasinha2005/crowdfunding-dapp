@@ -87,15 +87,24 @@ useEffect(() => {
       const data = await contract.getAllCampaigns();
 
       const formattedCampaigns = data.map((campaign, index) => ({
-        id: index,
-        title: campaign.title,
-        description: campaign.description,
-        owner: campaign.owner,
-        target: campaign.target,
-        deadline: campaign.deadline,
-        amountCollected: campaign.amountCollected,
-        withdrawn: campaign.withdrawn,
-      }));
+  id: index,
+  title: campaign.title,
+  description: campaign.description,
+  owner: campaign.owner,
+  target: campaign.target,
+  deadline: campaign.deadline,
+  amountCollected: campaign.amountCollected,
+  withdrawn: campaign.withdrawn,
+
+  image:
+    campaign.title.toLowerCase().includes("education")
+      ? "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=80"
+      : campaign.title.toLowerCase().includes("eco")
+      ? "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=900&q=80"
+      : campaign.title.toLowerCase().includes("solar")
+      ? "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=900&q=80"
+      : "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80",
+}));
 
       setCampaigns(formattedCampaigns);
       console.log("Blockchain campaigns:", formattedCampaigns);
@@ -216,14 +225,21 @@ const connectWallet = async () => {
               {/* Buttons */}
               <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
 
-                <button className="group flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-semibold text-black transition hover:scale-[1.02] hover:bg-gray-200">
-                  Explore Campaigns
+                <button
+  onClick={() =>
+    document.getElementById("explore")?.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
+  className="group flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-semibold text-black transition hover:scale-[1.02] hover:bg-gray-200"
+>
+  Explore Campaigns
 
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </button>
+  <ArrowRight
+    size={18}
+    className="transition-transform group-hover:translate-x-1"
+  />
+</button>
 
                 <div className="mt-10 mx-auto max-w-xl rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-left">
 
@@ -235,7 +251,9 @@ const connectWallet = async () => {
     Create a campaign directly on the blockchain.
   </p>
 
-  <div className="mt-6 space-y-4">
+  <div 
+  id="create-campaign"
+  className="mt-6 space-y-4">
 
     <input
       type="text"
@@ -528,9 +546,16 @@ const connectWallet = async () => {
                   into something real.
                 </p>
 
-                <button className="mt-8 rounded-xl bg-white px-7 py-3.5 font-semibold text-black transition hover:scale-[1.02] hover:bg-gray-200">
-                  Start a Campaign
-                </button>
+                <button
+  onClick={() =>
+    document.getElementById("create-campaign")?.scrollIntoView({
+      behavior: "smooth",
+    })
+  }
+  className="rounded-xl border border-white/10 bg-white/5 px-6 py-3.5 font-semibold text-white transition hover:bg-white/10"
+>
+  Start a Campaign
+</button>
 
               </div>
 
