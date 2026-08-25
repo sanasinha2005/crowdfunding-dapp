@@ -33,6 +33,24 @@ The application allows users to create crowdfunding campaigns, contribute ETH to
 - Ethereum
 - MetaMask
 
+TERMINAL 1
+cd /d D:\Projects\crowdfunding-dapp\blockchain
+npx hardhat node
+
+
+TERMINAL 2
+cd /d D:\Projects\crowdfunding-dapp\blockchain
+npx hardhat run scripts/deploy.ts --network localhost
+
+
+TERMINAL 3
+cd /d D:\Projects\crowdfunding-dapp\frontend
+npm run dev
+
+Then:
+
+MetaMask → Hardhat Local → http://localhost:5173
+
 ## Project Structure
 
 ```text
